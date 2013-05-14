@@ -1,0 +1,79 @@
+body{
+    font-family:sans-serif;
+}
+.axis path, 
+.axis line {
+   fill: none;
+   stroke: black; 
+   shape-rendering: crispEdges;
+}
+.axis text {
+   font-family: sans-serif;
+   font-size: 11px;
+}
+line{
+    stroke:black;
+}
+.wave path{
+    stroke-width:3px;
+}
+.wave circle{
+    stroke: white;
+}
+.wave text{
+    fill: white;
+    stroke: none;
+    font-size:12px;
+    font-weight: bold;
+}
+.line {
+    float:left;
+}
+.line_container{
+    width: 150px;
+    height: 20px;
+}
+path{
+    fill: none;
+}
+.key{
+    float:right;
+}
+.key_line{
+    font-size:17px;
+    width:100%;
+}
+.key_square{
+    height:10px;
+    width:10px;
+    outline:solid;
+    outline-color:black;
+    outline-width:1px; 
+    float:left;
+    margin-right:10px;
+    margin-top:6px;
+    margin-left:10px;
+}
+.control{
+    float:right;
+}
+.control_line{
+    font-size:17px;
+    width:100%;
+}
+#wave{
+    float:left;
+}
+#title { 
+   position: absolute;
+   bottom: 0;
+   left: 0;  /* Changing this line to left: 0; instead of right: 0; will illustrate the overlap effect that is possible with absolute. */
+   width: 1000px;
+   height: 70px;
+   background: #44accf;
+		}
+p {
+    left: 100px;
+    top: 0px;
+    position: relative;
+}

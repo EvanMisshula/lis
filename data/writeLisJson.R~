@@ -1,0 +1,95 @@
+writeNewDataJson <- function(Tough=50,Nothing=10,Smart=-40,periods=37,stDate="2012-04-01 00:00:00")
+  {
+    d <- read.table(file="pre-post-LIS.csv",header=T,sep="\t")
+    countryLevels <- levels(d[['coun']])
+    countryString <- levels(d$coun)[d$coun]
+    wave <- d$ser
+    year <- d$year
+
+    gini_mi <- d$gini_mi
+    gini_dhi <- d$gini_dhi
+    pov_mi <- d$pov_mi
+    pov_dhi <- d$pov_dhi
+    
+##     set.seed <- 11
+##     rT <- 2*log((100+Tough)/100)/(periods-1)
+##     rN <- 2*log((100+Nothing)/100)/(periods-1)
+##     rS <- 2*log((100+Smart)/100)/(periods-1)
+##     periodData <- 0:(periods-1)
+##     rTdata <- 100* exp(rT*periodData[1:(.5*(periods-1)+1)])
+##     rNdata <- 100* exp(rN*periodData[1:(.5*(periods-1)+1)])
+##     rSdata <- 100* exp(rS*periodData[1:(.5*(periods-1)+1)])
+##     rTdata <- c(rTdata,rep(rTdata[.5*(periods-1)+1],.5*(periods-1)))
+##     rNdata <- c(rNdata,rep(rNdata[.5*(periods-1)+1],.5*(periods-1)))
+##     rSdata <- c(rSdata,rep(rSdata[.5*(periods-1)+1],.5*(periods-1)))
+
+##     chgPeriods <- (periods-1)/2
+##     flatPeriods <- (periods-1)/2
+##     flatData <- rep(0,flatPeriods)
+##     noise <- c(0,rnorm(chgPeriods),flatData)
+##     rTdata <- rTdata*(1+(0.05*noise))
+##     noise <- c(0,rnorm(chgPeriods),flatData)
+##     rNdata <- rNdata*(1+(0.05*noise))
+##     noise <- c(0,rnorm(chgPeriods),flatData)
+##     rSdata <- rSdata*(1+(0.05*noise))
+
+##     rTdata <- round(rTdata,1)
+##     rNdata <- round(rNdata,1)
+##     rSdata <- round(rSdata,1)    
+
+    
+    
+## #    time <- read.table(file="rTime.csv",header=TRUE,sep=",")
+##     timeTuple <- getTimeTuple(stDate,periods)
+##     posixString<- paste(paste(timeTuple[,1],timeTuple[,2],timeTuple[,3],sep="-"),"00:00:00",sep=" ")
+##     time <- 1000*as.numeric(as.POSIXct(posixString))
+
+    countryNames <- c("Austria",
+                      "Canada",
+                      "Czech Republic",
+                      "Germany",
+                      "Denmark",
+                      "Finland",
+                      "Israel",
+                      "Netherlands",
+                      "Norway",
+                      "Romania",
+                      "Sweeden",
+                      "Taiwan",
+                      "United Kingdom",
+                      "United States")
+    tsKeys <- paste("Line",countryLevels,sep="_")
+                      
+                      
+    grParam <- matrix(c(tsKeys,countryNames),nrow=15,ncol=2)
+    grData <- data.frame(time,rTdata,rNdata,rSdata)
+    cat("[",sep=",",file="pris_count.json",append=FALSE)
+    for(i in 1:nrow(grParam))
+      {
+        for(ii in 1:max(wave))
+          {
+            datum <- list("line_id"=grParam[i,1],"line_name"=grParam[i,2],"late_percent"=grData[ii,i+1],"year"=grData[ii,1])
+            datumJason <- toJSON(datum)
+            cat(datumJason,sep=",",file="pris_count.json",append=TRUE)
+            if(!((i==nrow(grParam)) && (ii==periods)))
+              {
+                cat(",",sep="",file="pris_count.json",append=TRUE)
+              } else {
+                cat("]",sep="",file="pris_count.json",append=TRUE)
+              }
+          }
+      }
+    cat("[",sep=",",file="pris_count_mean.json",append=FALSE)
+    for(i in 1:nrow(grParam))
+      {
+        meanDatum <- list("line_id"=grParam[i,1],"line_name"=grParam[i,2],"late_percent"=round(mean(grData[,i+1]),1))
+        meanDatumJason <- toJSON(meanDatum)
+        cat(meanDatumJason,sep=",",file="pris_count_mean.json",append=TRUE)
+        if(!((i==nrow(grParam)) && (ii=periods)))
+          {
+            cat(",",sep="",file="pris_count_mean.json",append=TRUE)
+          } else {
+            cat("]",sep="",file="pris_count_mean.json",append=TRUE)
+          }
+      }
+  }
