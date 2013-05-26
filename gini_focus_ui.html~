@@ -40,12 +40,12 @@ function drawNeutralLine(){
             var neutral_gini_dhi = [];
 
 	    for (i=0;i<101;i++) {
-		neutral_gini_mi.push(.01*i);
-		neutral_gini_dhi.push(.01*i);
+		neutral_gini_mi.push(.01*(.38-.27)*i+.27);
+		neutral_gini_dhi.push(.01*(.38-.27)*i+.27);
 	    }
 
 	    var line = d3.svg.line()
-		.x(function(d,i){return mi_scale(0.01*i);})
+		.x(function(neutral_gini_mi){return mi_scale(neutral_gini_mi);})
 		.y(function(neutral_gini_dhi){return dhi_scale(neutral_gini_dhi);})
 		.interpolate("linear");
 
@@ -61,83 +61,83 @@ function drawNeutralLine(){
             // Add dots etc.
         }        
 }
-function adjustMargins() {
+// function adjustMargins() {
 
-   if (countryDisplayed.length == 0) {
-       alert("You must add at least one \n series to the plot before you zoom");
-       }
-    else {
-	var gini_mi_extent_temp=[];
-	var gini_dhi_extent_temp=[];
+//    if (countryDisplayed.length == 0) {
+//        alert("You must add at least one \n series to the plot before you zoom");
+//        }
+//     else {
+// 	var gini_mi_extent_temp=[];
+// 	var gini_dhi_extent_temp=[];
 	
 	    
-	    var id = countryDisplayed[i];
+// 	    var id = countryDisplayed[i];
 
-	d3.json('/data/lis-gini.json',function(data){
-	    filtered_data = data.filter(function(d){return
-	for (i=0;i<countryDisplayed.length;i++)
-	     {					    
-		(d.line_id === id) ||
-	     }
-	});
-	    gini_mi_extent_temp = d3.extent(filtered_data,function(d) {return d.gini_mi});
-	    if (gini_mi_extent.length == 0) {
-		gini_mi_extent = gini_mi_extent_temp;
-		}
-	    else {
-		if (gini_mi_extent_temp[0] < gini_mi_extent[0] ) {
-		    gini_mi_extent[0] = gini_mi_extent_temp[0];
-		    }
-		if (gini_mi_extent_temp[1] > gini_mi_extent[1] ) {
-		    gini_mi_extent[1] = gini_mi_extent_temp[1];
-		    }
-	    }
+// 	d3.json('/data/lis-gini.json',function(data){
+// 	    filtered_data = data.filter(function(d){return
+// 	for (i=0;i<countryDisplayed.length;i++)
+// 	     {					    
+// 		(d.line_id === id) ||
+// 	     }
+// 	});
+// 	    gini_mi_extent_temp = d3.extent(filtered_data,function(d) {return d.gini_mi});
+// 	    if (gini_mi_extent.length == 0) {
+// 		gini_mi_extent = gini_mi_extent_temp;
+// 		}
+// 	    else {
+// 		if (gini_mi_extent_temp[0] < gini_mi_extent[0] ) {
+// 		    gini_mi_extent[0] = gini_mi_extent_temp[0];
+// 		    }
+// 		if (gini_mi_extent_temp[1] > gini_mi_extent[1] ) {
+// 		    gini_mi_extent[1] = gini_mi_extent_temp[1];
+// 		    }
+// 	    }
 	
 
-	    gini_dhi_extent_temp = d3.extent(filtered_data,function(d) {return d.gini_dhi});
-	    if (gini_dhi_extent.length == 0) {
-		gini_dhi_extent = gini_dhi_extent_temp;
-		}
-	    else {
-		if (gini_dhi_extent_temp[0] < gini_dhi_extent[0] ) {
-		    gini_dhi_extent[0] = gini_dhi_extent_temp[0];
-		    }
-		if (gini_dhi_extent_temp[1] > gini_dhi_extent[1] ) {
-		    gini_dhi_extent[1] = gini_dhi_extent_temp[1];
-		    }
-	    }
+// 	    gini_dhi_extent_temp = d3.extent(filtered_data,function(d) {return d.gini_dhi});
+// 	    if (gini_dhi_extent.length == 0) {
+// 		gini_dhi_extent = gini_dhi_extent_temp;
+// 		}
+// 	    else {
+// 		if (gini_dhi_extent_temp[0] < gini_dhi_extent[0] ) {
+// 		    gini_dhi_extent[0] = gini_dhi_extent_temp[0];
+// 		    }
+// 		if (gini_dhi_extent_temp[1] > gini_dhi_extent[1] ) {
+// 		    gini_dhi_extent[1] = gini_dhi_extent_temp[1];
+// 		    }
+// 	    }
 
 
 	 
-	mi_scale = d3.scale.linear()
-		.range([0, chart_dimensions.width])
-		.domain([gini_mi_extent[0],gini_mi_extent[1]]);
+// 	mi_scale = d3.scale.linear()
+// 		.range([0, chart_dimensions.width])
+// 		.domain([gini_mi_extent[0],gini_mi_extent[1]]);
 
 
-	dhi_scale = d3.scale.linear()
-		.range([0, chart_dimensions.height])
-		.domain([gini_dhi_extent[1], gini_dhi_extent[0]]);
+// 	dhi_scale = d3.scale.linear()
+// 		.range([0, chart_dimensions.height])
+// 		.domain([gini_dhi_extent[1], gini_dhi_extent[0]]);
 
-	mi_axis.scale(mi_scale).orient("bottom").ticks(10);
-	dhi_axis.scale(dhi_scale).orient("left").ticks(10);
+// 	mi_axis.scale(mi_scale).orient("bottom").ticks(10);
+// 	dhi_axis.scale(dhi_scale).orient("left").ticks(10);
     	 
-	svg.select(".x.axis")
-	    .transition()
-	    .duration(1000)
-	    .call(mi_axis);
+// 	svg.select(".x.axis")
+// 	    .transition()
+// 	    .duration(1000)
+// 	    .call(mi_axis);
 
-	svg.select(".y.axis")
-	    .transition()
-	    .duration(1000)
-	    .call(dhi_axis);
+// 	svg.select(".y.axis")
+// 	    .transition()
+// 	    .duration(1000)
+// 	    .call(dhi_axis);
 	    
-	for (i=0; i < countryDisplayed.length;i++) {
-	    get_wave_data("",countryDisplayed[i]);
-	    }
+// 	for (i=0; i < countryDisplayed.length;i++) {
+// 	    get_wave_data("",countryDisplayed[i]);
+// 	    }
 	
-    }
-}
- 
+//     }
+// }
+// }} 
 function get_wave_data(d,i){
     var id = d.line_id;
     var wv = d3.select('#'+id);
@@ -247,12 +247,12 @@ function draw(data) {
 
     mi_scale = d3.scale.linear()
     .range([0, chart_dimensions.width])
-    .domain([0,1] );
+    .domain([.27,.58] );
 
 
     dhi_scale = d3.scale.linear()
     .range([0, chart_dimensions.height])
-    .domain([1,0]);
+    .domain([.38,.15]);
 
 
     mi_axis.scale(mi_scale).orient("bottom").ticks(5);
