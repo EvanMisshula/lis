@@ -1,16 +1,37 @@
-#Logs
-application/logs/*.php
+# Compiled
+*.elc
 
-# Content types
-/application/xml/types/*.xml
+# Packaging
+.cask
 
-# Custom builds and generated php files
-/core/documentation/build
-/core/views/admin/content/translations.php
+#emacs
+# -*- mode: gitignore; -*-
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
 
-# Attachs and cache files #
-*.tmp
-/attach/cache/
-/attach/
-/application/cache/_bancha/*.css
-/application/cache/_bancha/*.js
+# Org-mode
+.org-id-locations
+*_archive
+
+# flymake-mode
+*_flymake.*
+
+# eshell files
+/eshell/history
+/eshell/lastdir
+
+# elpa packages
+/elpa/
+
+# reftex files
+*.rel
+
+# AUCTeX auto folder
+/auto/
+/.project

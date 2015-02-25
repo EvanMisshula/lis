@@ -38,6 +38,9 @@ function drawNeutralLine(){
 	    var lbNeutral = d3.max([d3.min(yLimit),d3.min(xLimit)]);
 	    var ubNeutral = d3.min([d3.max(xLimit),d3.max(yLimit)]);
 
+
+	    //if(){}
+
 	    for (i=0;i<101;i++) {
 		neutral_gini_mi.push(lbNeutral+(.01*i)*(ubNeutral-lbNeutral));
 		neutral_gini_dhi.push(lbNeutral+(.01*i)*(ubNeutral-lbNeutral));
@@ -99,6 +102,14 @@ function makeAdj(d){
 
 function adjustMarginsF(){
 
+
+    if ( neutral_line_displayed == 1 ) {
+	    path = d3.select('g#neutral_line.Line_np');
+	    path.remove();
+	    neutral_line_displayed = -1;
+            // Remove dots
+            //path = null;
+        }
     adjustMargins=1-adjustMargins;
     d3.json('/data/lis_gini_recent.json', makeAdj);
 }	
