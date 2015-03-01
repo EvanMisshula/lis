@@ -147,7 +147,8 @@ function adjustMarginsF(){
 	    var index = countryDisplayed.indexOf(id);	
 	    countryDisplayed.splice(index,1); } 
 	 } else {
-	// draw new line 
+	     // draw new line
+	     wv.empty()
 	     id = i;
 	     d3.json('/data/lis-gini.json',function(d){
 		 filtered_data = d.filter(function(d){return d.line_id === id;});
@@ -160,7 +161,7 @@ function adjustMarginsF(){
 	     });
 
 	}
-    }
+ }
 
 function add_label(circle, d, i) {
 
@@ -246,7 +247,6 @@ g.selectAll('circle')
  });
 
 }
-
  function draw_wave_transition(axisPadding, d, xTemp, yTemp){
 
 	mi_scale = d3.scale.linear()
@@ -307,83 +307,27 @@ g.selectAll('circle')
 						     
 
 
-}
-	    // g.selectAll('circle')
-	    // 	.transition()
-	    // 	.delay(function(d,i) { return i / data.length * enter_duration; })
-	    // 	.attr('r', 5)
-	    // 	.each('end', function(d,i) {
-	    // 	    if (i === data.length-1) {
-	    // 		add_label(this,d)
-	    // 	    }
-	    // 	});
-
-// 	    g.selectAll('circle')
-// 		.on('mouseover', function(d) {
-// 		    d3.select(this)
-// 			.transition().attr('r',9)
-// 		})
-// 		.on('mouseout', function(d,i){
-// 		    if (i !== data.length-1) {
-// 			d3.select(this).transition().attr('r',5)
-// 		    }
-// 		});
-
-// 	    g.selectAll('circle')
-// 		.on('mouseover.tooltip', function(d){
-// 		    d3.select("text." + d.line_id).remove()
-// 		    d3.select('#chart')
-// 			.append('text')
-// 			.text("gini mi=" + d.gini_mi + ", " + "gini dhi=" + d.gini_dhi)
-// 			.attr('x', mi_scale(d.gini_mi) + 10)
-// 			.attr('y', dhi_scale(d.gini_dhi) - 10)
-// 			.attr('class', d.line_id)
-// 		})
-// 		.on('mouseout.tooltip', function(d){
-// 		    d3.select("text." + d.line_id)
-// 			.transition()
-// 			.duration(500)
-// 			.style('opacity',0)
-// 			.attr('transform','translate(10, -10)')
-// 			.remove()
-// 		});
-	    
-// 						     }
- 	});
-
-// // var line = d3.svg.line()
-// //     .x(function(d){return mi_scale(d.gini_mi)})
-// //     .y(function(d){return dhi_scale(d.gini_dhi)})
-// //     .interpolate("linear");
-
-// // //    d3.select('wave').append('svg').append('path')
-// //   //  .append('wave ' + id)
-// //     d3.select('#wave')
-// //       .select('chart')
-// // 	.select(id)
-// //     .transition()
-// //     .duration(1000)
-// //     .attr('d',line(data));
-
 	}
 
+
+
+
+	});
+ }
 
 function draw(data) {
     "use strict";
 
 // Draw the 
-    
-    xLimit=[0,1];
-    yLimit=[0,1];
 
     mi_scale = d3.scale.linear()
     .range([0, chart_dimensions.width])
-	.domain([xLimit[0],xLimit[1]] );
+    .domain([0,1] );
 
 
     dhi_scale = d3.scale.linear()
     .range([0, chart_dimensions.height])
-    .domain([yLimit[1],yLimit[0]]);
+    .domain([1,0]);
 
 
     mi_axis.scale(mi_scale).orient("bottom").ticks(5);
@@ -391,14 +335,11 @@ function draw(data) {
     
     var g = d3.select('#wave')
     .append('svg')
-    .attr('id',"wave")
-    .attr('class',"canvas")
     .attr('width', container_dimensions.width)
     .attr('height', container_dimensions.height)
     .append("g")
     .attr("transform", "translate(" + margins.left + "," + margins.top + ")")
-    .attr("id","chart")
-    .attr("class",'frame');
+    .attr("id","chart");
     
     g.append("g")
     .attr("class","x axis")
@@ -423,17 +364,17 @@ function draw(data) {
     .call(dhi_axis);
 
     d3.select('.y.axis')
-	.append('text')
-	.text('post tax and transfer gini index')
-	.attr('transform', "rotate (-270, 0, 0)")
+    .append('text')
+    .text('post tax and transfer gini index')
+    .attr('transform', "rotate (-270, 0, 0)")
 	.attr('x', 100)
-	.attr('y',50);
+    .attr('y',50);
 
     var key_items = d3.select('#key')
-	.selectAll('div')
-	.data(data)
-	.enter()
-	.append('div')
+      .selectAll('div')
+      .data(data)
+      .enter()
+      .append('div')
         .attr('class','key_line')
         .attr('id',function(d){return d.line_id+"_key"});
         
@@ -448,5 +389,8 @@ function draw(data) {
     d3.selectAll('.key_line')
         .on('click', get_wave_data);
 
-        }
+
+};
+
+
 d3.json('/data/lis_gini_recent.json', draw);
