@@ -39,7 +39,10 @@ function drawNeutralLine(){
 	    var ubNeutral = d3.min([d3.max(xLimit),d3.max(yLimit)]);
 
 
-	    //if(){}
+	    if(d3.max(yLimit)<d3.min(xLimit)){
+		debugger;
+		alert("You are too far from the neutral line to see it on zoom.");
+	    }
 
 	    for (i=0;i<101;i++) {
 		neutral_gini_mi.push(lbNeutral+(.01*i)*(ubNeutral-lbNeutral));
